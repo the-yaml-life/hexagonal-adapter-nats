@@ -8,6 +8,7 @@
 use crate::{NatsConfig, NatsError, Result};
 use async_nats::jetstream::consumer::PullConsumer;
 use async_nats::{jetstream, Client};
+use tokio::time::{timeout, Duration};
 
 /// JetStream client wrapper
 pub struct JetStreamClient {
@@ -24,10 +25,18 @@ impl JetStreamClient {
     pub async fn new(config: NatsConfig) -> Result<Self> {
         config.validate()?;
 
-        // Connect to NATS
-        let client = async_nats::connect(&config.url)
-            .await
-            .map_err(|e| NatsError::Connection(e.to_string()))?;
+        // Connect to NATS with timeout
+        let timeout_duration = Duration::from_secs(config.connection_timeout_secs as u64);
+        let client = timeout(
+            timeout_duration,
+            async_nats::connect(&config.url)
+        )
+        .await
+        .map_err(|_| NatsError::Connection(format!(
+            "Connection timeout after {}s connecting to {}",
+            config.connection_timeout_secs, config.url
+        )))?
+        .map_err(|e| NatsError::Connection(e.to_string()))?;
 
         // Get JetStream context
         let context = jetstream::new(client.clone());
