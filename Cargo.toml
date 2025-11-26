@@ -11,8 +11,8 @@ categories = ["asynchronous", "network-programming"]
 
 [dependencies]
 # Core hexagonal dependencies
-hexagonal-core = { path = "../../core", version = "0.3.0" }
-hexagonal-ports-messaging = { path = "../../ports/messaging", version = "0.3.0", features = ["cloudevents"] }
+hexagonal-core = { git = "https://github.com/the-yaml-life/hexagonal-core", branch = "master", version = "0.3.0" }
+hexagonal-ports-messaging = { git = "https://github.com/the-yaml-life/hexagonal-ports-messaging", branch = "master", version = "0.3.0", features = ["cloudevents"] }
 
 # NATS dependencies
 async-nats = "0.33"
