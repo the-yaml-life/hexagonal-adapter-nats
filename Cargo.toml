@@ -34,7 +34,7 @@ async-trait = "0.1"
 tracing = "0.1"
 
 # UUID support
-uuid = { version = "1.10", features = ["v4", "serde"] }
+uuid = { version = "1.18.1", features = ["v4", "serde"] }
 
 [dev-dependencies]
 # Testing
