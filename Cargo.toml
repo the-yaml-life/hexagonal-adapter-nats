@@ -33,6 +33,9 @@ async-trait = "0.1"
 # Logging
 tracing = "0.1"
 
+# Time handling
+chrono = { version = "0.4", features = ["serde"] }
+
 # UUID support
 uuid = { version = "1.18.1", features = ["v4", "serde"] }
 
